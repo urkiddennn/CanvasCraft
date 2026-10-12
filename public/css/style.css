@@ -1,25 +1,25 @@
 :root {
-  /* Studio Pro Dark Theme */
-  --bg-app: #090D16;
-  --bg-stage: #0E1422;
-  --bg-panel: #131A29;
-  --bg-card: #182236;
-  --bg-hover: #1E2B45;
-  --bg-active: #243454;
+  /* Studio Pro Theme: #222831, #393E46, White */
+  --bg-app: #222831;
+  --bg-stage: #1e2229;
+  --bg-panel: #222831;
+  --bg-card: #393E46;
+  --bg-hover: #4e5561;
+  --bg-active: #545b69;
   
-  --border-subtle: #1A2338;
-  --border-default: #222F4B;
-  --border-focus: #4F46E5;
+  --border-subtle: #2d333d;
+  --border-default: #393E46;
+  --border-focus: #EEEEEE;
   
-  --primary: #6366F1;
-  --primary-hover: #4F46E5;
-  --accent-cyan: #38BDF8;
+  --primary: #393E46;
+  --primary-hover: #4e5561;
+  --accent-cyan: #00ADB5;
   --accent-pink: #EC4899;
   --accent-emerald: #10B981;
   
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-dim: #64748B;
+  --text-primary: #FFFFFF;
+  --text-secondary: #EEEEEE;
+  --text-dim: #9aa0a6;
   
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-display: 'Outfit', sans-serif;
@@ -343,9 +343,13 @@ body {
   transition: all 0.15s ease;
 }
 
-.rail-item svg {
+.rail-item svg, .rail-item i {
+  font-size: 17px;
   width: 19px;
   height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   stroke-width: 1.8;
 }
 
@@ -571,34 +575,45 @@ body {
   overflow: hidden;
 }
 
-/* Property Toolbar */
+/* Property Toolbar - Floating Rounded Pill matching reference */
 .studio-prop-toolbar {
-  height: 44px;
+  min-height: 48px;
   background: var(--bg-app);
   border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
-  padding: 0 16px;
+  padding: 6px 16px;
   gap: 8px;
   z-index: 20;
+  overflow-x: auto;
+}
+
+.prop-pill-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #222831;
+  border: 1px solid #393E46;
+  border-radius: 9999px;
+  padding: 4px 10px;
 }
 
 .prop-group {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 
 .prop-btn {
-  height: 30px;
-  min-width: 30px;
+  height: 32px;
+  min-width: 32px;
   padding: 0 8px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-xs);
-  color: var(--text-secondary);
-  font-size: 12px;
-  display: flex;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: #EEEEEE;
+  font-size: 13px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -606,22 +621,83 @@ body {
 }
 
 .prop-btn:hover {
-  background: var(--bg-hover);
-  color: var(--text-primary);
-  border-color: var(--primary);
+  background: #393E46;
+  color: #FFFFFF;
 }
 
 .prop-btn.active {
-  background: var(--primary);
+  background: #393E46;
   color: #FFFFFF;
-  border-color: var(--primary);
+  box-shadow: 0 0 0 1px #EEEEEE inset;
+}
+
+.prop-btn i {
+  font-size: 13px;
 }
 
 .prop-divider {
   width: 1px;
   height: 18px;
-  background: var(--border-default);
+  background: #393E46;
   margin: 0 4px;
+}
+
+/* Stepper Box (- 90 +) */
+.prop-stepper {
+  display: inline-flex;
+  align-items: center;
+  background: #2b303a;
+  border: 1px solid #393E46;
+  border-radius: 6px;
+  padding: 2px 4px;
+  height: 32px;
+}
+
+.prop-stepper-btn {
+  background: transparent;
+  border: none;
+  color: #EEEEEE;
+  width: 22px;
+  height: 100%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.prop-stepper-btn:hover {
+  background: #393E46;
+  color: #fff;
+}
+
+.prop-stepper-val {
+  width: 38px;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  outline: none;
+}
+
+/* Color swatch with rainbow line under A */
+.text-color-btn-wrap {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-color-rainbow-bar {
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #FF0000, #FFFF00, #00FF00, #00FFFF, #0000FF, #FF00FF);
+  margin-top: 1px;
 }
 
 /* Stage Scroll Container */

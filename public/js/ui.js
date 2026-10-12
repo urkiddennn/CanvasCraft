@@ -796,79 +796,170 @@ document.addEventListener('DOMContentLoaded', async () => {
     const isImage = active instanceof fabric.Image;
     const isShape = !isText && !isImage;
 
-    let html = `
-      <div class="prop-group">
-        <button class="prop-btn" id="btn-prop-align-h" title="Align Center Horizontally">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><rect width="12" height="6" x="6" y="9" rx="1"/></svg>
-        </button>
-        <button class="prop-btn" id="btn-prop-align-v" title="Align Middle Vertically">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="12" x2="22" y2="12"/><rect width="6" height="12" x="9" y="6" rx="1"/></svg>
-        </button>
-        <button class="prop-btn" id="btn-prop-up" title="Bring Forward">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
-        </button>
-        <button class="prop-btn" id="btn-prop-down" title="Send Backward">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-      </div>
-      <div class="prop-divider"></div>
-    `;
+    let html = `<div class="prop-pill-container">`;
 
     if (isText) {
+      // EXACT CANVA TOOLBAR LAYOUT FROM USER SCREENSHOT:
+      // [Edit] [Color Dot] [===] [Font Family] [- 90 +] [A (rainbow)] [B] [I] [U] [S] [aA] [Align] [List] [LetterSpacing] [Opacity] [Effects] [Animate] [Position] [Roller]
       html += `
-        <div class="prop-group">
-          <select id="prop-font-family" class="prop-dropdown" style="height:30px; background:var(--bg-panel); border:1px solid var(--border-default); color:var(--text-primary); border-radius:var(--radius-xs); padding:0 8px; font-size:12px;">
-            ${['Caveat', 'Inter', 'Outfit', 'Playfair Display', 'Space Grotesk'].map(f => `<option value="${f}" ${active.fontFamily === f ? 'selected' : ''}>${f}</option>`).join('')}
-          </select>
-          <input type="number" id="prop-font-size" class="prop-num" value="${Math.round(active.fontSize || 40)}" min="8" max="240" style="width:50px; height:30px; background:var(--bg-panel); border:1px solid var(--border-default); color:var(--text-primary); border-radius:var(--radius-xs); padding:0 6px; font-size:12px;">
+        <!-- Edit Action -->
+        <button class="prop-btn" id="btn-prop-edit" style="font-weight:600; font-size:12px; padding:0 8px;">Edit</button>
+
+        <!-- Color Circle Dot -->
+        <div style="position:relative; display:inline-flex; align-items:center;">
+          <div class="color-swatch-box" style="width:20px; height:20px; border-radius:50%; background:${active.fill || '#38BDF8'}; cursor:pointer; border:2px solid #222831; box-shadow:0 0 0 1px #393E46;" id="text-color-dot" title="Text Color"></div>
+          <input type="color" class="color-input-hidden" id="prop-text-col" value="${rgbToHex(active.fill) || '#38bdf8'}" style="position:absolute; opacity:0; width:20px; height:20px; cursor:pointer;">
         </div>
-        <div class="prop-group">
-          <button class="prop-btn ${active.fontWeight === 'bold' ? 'active' : ''}" id="btn-prop-bold" title="Bold">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 12h9a4 4 0 0 1 0 8H6v-8zm0-8h8a4 4 0 0 1 0 8H6V4z"/></svg>
-          </button>
-          <button class="prop-btn ${active.fontStyle === 'italic' ? 'active' : ''}" id="btn-prop-italic" title="Italic">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg>
-          </button>
+
+        <!-- Menu / Font weight style lines -->
+        <button class="prop-btn" id="btn-prop-font-styles" title="Font Styles">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Font Family Dropdown Box -->
+        <select id="prop-font-family" style="background:#2b303a; border:1px solid #393E46; border-radius:6px; color:#FFFFFF; height:32px; padding:0 10px; font-size:13px; font-weight:600; outline:none; cursor:pointer;">
+          ${['Caveat', 'Inter', 'Outfit', 'Playfair Display', 'Space Grotesk'].map(f => `<option value="${f}" ${active.fontFamily === f ? 'selected' : ''}>${f}</option>`).join('')}
+        </select>
+
+        <!-- Stepper (- 90 +) -->
+        <div class="prop-stepper">
+          <button class="prop-stepper-btn" id="btn-font-dec"><i class="fa-solid fa-minus"></i></button>
+          <input type="text" class="prop-stepper-val" id="prop-font-size-val" value="${Math.round(active.fontSize || 40)}">
+          <button class="prop-stepper-btn" id="btn-font-inc"><i class="fa-solid fa-plus"></i></button>
+        </div>
+
+        <!-- Text Color Rainbow A -->
+        <div class="text-color-btn-wrap prop-btn" id="btn-trigger-color" title="Text Color" style="cursor:pointer;">
+          <span style="font-weight:800; font-size:14px; line-height:1;">A</span>
+          <div class="text-color-rainbow-bar"></div>
+        </div>
+
+        <!-- Bold -->
+        <button class="prop-btn ${active.fontWeight === 'bold' ? 'active' : ''}" id="btn-prop-bold" title="Bold">
+          <i class="fa-solid fa-bold"></i>
+        </button>
+
+        <!-- Italic -->
+        <button class="prop-btn ${active.fontStyle === 'italic' ? 'active' : ''}" id="btn-prop-italic" title="Italic">
+          <i class="fa-solid fa-italic"></i>
+        </button>
+
+        <!-- Underline -->
+        <button class="prop-btn ${active.underline ? 'active' : ''}" id="btn-prop-underline" title="Underline">
+          <i class="fa-solid fa-underline"></i>
+        </button>
+
+        <!-- Strikethrough -->
+        <button class="prop-btn ${active.linethrough ? 'active' : ''}" id="btn-prop-strike" title="Strikethrough">
+          <i class="fa-solid fa-strikethrough"></i>
+        </button>
+
+        <!-- Uppercase / Lowercase (aA) -->
+        <button class="prop-btn" id="btn-prop-case" title="Uppercase / Lowercase">
+          <span style="font-size:12px; font-weight:700;">aA</span>
+        </button>
+
+        <!-- Alignment -->
+        <button class="prop-btn" id="btn-prop-align-text" title="Align Text">
+          <i class="fa-solid fa-align-left"></i>
+        </button>
+
+        <!-- Bullet List -->
+        <button class="prop-btn" id="btn-prop-list" title="List">
+          <i class="fa-solid fa-list-ul"></i>
+        </button>
+
+        <!-- Spacing (Letter & Line) -->
+        <button class="prop-btn" id="btn-prop-spacing" title="Letter & Line Spacing">
+          <i class="fa-solid fa-arrows-left-right-to-line"></i>
+        </button>
+
+        <!-- Transparency / Opacity checkerboard -->
+        <div style="display:inline-flex; align-items:center; gap:4px; padding:0 4px;" title="Opacity">
+          <i class="fa-solid fa-border-all" style="font-size:13px; color:#EEEEEE;"></i>
+          <input type="range" id="prop-transparency" min="0.1" max="1" step="0.05" value="${active.opacity || 1}" style="width:50px; accent-color:#00ADB5; cursor:pointer;">
+        </div>
+
+        <div class="prop-divider"></div>
+
+        <!-- Effects -->
+        <button class="prop-btn" id="btn-prop-effects" style="font-size:12px; font-weight:600;">Effects</button>
+
+        <!-- Animate -->
+        <button class="prop-btn" id="btn-prop-animate" style="font-size:12px; font-weight:600;">Animate</button>
+
+        <!-- Position -->
+        <button class="prop-btn" id="btn-prop-position" style="font-size:12px; font-weight:600;">Position</button>
+
+        <div class="prop-divider"></div>
+
+        <!-- Format Painter / Roller -->
+        <button class="prop-btn" id="btn-prop-roller" title="Copy Style">
+          <i class="fa-solid fa-paint-roller"></i>
+        </button>
+      `;
+    } else if (isShape) {
+      html += `
+        <!-- Color Circle Dot -->
+        <div style="position:relative; display:inline-flex; align-items:center;">
+          <div class="color-swatch-box" style="width:20px; height:20px; border-radius:50%; background:${active.fill || '#38BDF8'}; cursor:pointer; border:2px solid #222831; box-shadow:0 0 0 1px #393E46;" id="shape-fill-box" title="Fill Color"></div>
+          <input type="color" class="color-input-hidden" id="prop-shape-col" value="${rgbToHex(active.fill) || '#38bdf8'}" style="position:absolute; opacity:0; width:20px; height:20px; cursor:pointer;">
+        </div>
+
+        <button class="prop-btn" id="btn-prop-border" title="Border Style">
+          <i class="fa-solid fa-border-top-left"></i>
+        </button>
+
+        <div class="prop-divider"></div>
+
+        <button class="prop-btn" id="btn-prop-align-h" title="Align Center Horizontally">
+          <i class="fa-solid fa-arrows-left-right"></i>
+        </button>
+        <button class="prop-btn" id="btn-prop-align-v" title="Align Middle Vertically">
+          <i class="fa-solid fa-arrows-up-down"></i>
+        </button>
+
+        <div class="prop-divider"></div>
+
+        <div style="display:inline-flex; align-items:center; gap:4px;" title="Opacity">
+          <i class="fa-solid fa-border-all" style="font-size:13px; color:#EEEEEE;"></i>
+          <input type="range" id="prop-transparency" min="0.1" max="1" step="0.05" value="${active.opacity || 1}" style="width:50px; accent-color:#00ADB5; cursor:pointer;">
+        </div>
+
+        <div class="prop-divider"></div>
+
+        <button class="prop-btn" id="btn-prop-position" style="font-size:12px; font-weight:600;">Position</button>
+      `;
+    } else {
+      html += `
+        <button class="prop-btn" id="btn-prop-align-h" title="Align Center Horizontally">
+          <i class="fa-solid fa-arrows-left-right"></i>
+        </button>
+        <button class="prop-btn" id="btn-prop-align-v" title="Align Middle Vertically">
+          <i class="fa-solid fa-arrows-up-down"></i>
+        </button>
+        <button class="prop-btn" id="btn-prop-up" title="Bring Forward">
+          <i class="fa-solid fa-layer-group"></i>
+        </button>
+        <div style="display:inline-flex; align-items:center; gap:4px;" title="Opacity">
+          <i class="fa-solid fa-border-all" style="font-size:13px; color:#EEEEEE;"></i>
+          <input type="range" id="prop-transparency" min="0.1" max="1" step="0.05" value="${active.opacity || 1}" style="width:50px; accent-color:#00ADB5; cursor:pointer;">
         </div>
         <div class="prop-divider"></div>
-        <div class="prop-group" style="position:relative;">
-          <div class="color-swatch-box" style="width:24px; height:24px; border-radius:4px; border:1px solid var(--border-default); background:${active.fill || '#000000'}; cursor:pointer;" id="text-color-box" title="Text Color"></div>
-          <input type="color" class="color-input-hidden" id="prop-text-col" value="${rgbToHex(active.fill) || '#000000'}" style="position:absolute; opacity:0; width:24px; height:24px; cursor:pointer;">
-        </div>
+        <button class="prop-btn" id="btn-prop-position" style="font-size:12px; font-weight:600;">Position</button>
       `;
     }
 
-    if (isShape) {
-      html += `
-        <div class="prop-group" style="position:relative;">
-          <span style="font-size:11px; color:var(--text-dim); margin-right:4px;">Fill:</span>
-          <div class="color-swatch-box" style="width:24px; height:24px; border-radius:4px; border:1px solid var(--border-default); background:${active.fill || '#38BDF8'}; cursor:pointer;" id="shape-fill-box" title="Fill Color"></div>
-          <input type="color" class="color-input-hidden" id="prop-shape-col" value="${rgbToHex(active.fill) || '#38bdf8'}" style="position:absolute; opacity:0; width:24px; height:24px; cursor:pointer;">
-        </div>
-      `;
-    }
-
+    // Common Lock & Delete
     html += `
       <div class="prop-divider"></div>
-      <div class="prop-group">
-        <span style="font-size:11px; color:var(--text-dim); margin-right:4px;">Opacity:</span>
-        <input type="range" id="prop-transparency" min="0.1" max="1" step="0.05" value="${active.opacity || 1}" style="width:65px; accent-color:var(--primary); cursor:pointer;">
-      </div>
-      <div class="prop-divider"></div>
-      <div class="prop-group">
-        <button class="prop-btn" id="btn-prop-dup" title="Duplicate (Ctrl+D)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-        </button>
-        <button class="prop-btn" id="btn-prop-lock" title="${active.lockMovementX ? 'Unlock element' : 'Lock element'}">
-          ${active.lockMovementX
-            ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`
-            : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>`}
-        </button>
-        <button class="prop-btn" id="btn-prop-del" title="Delete" style="color:#EF4444;">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-        </button>
-      </div>
-    `;
+      <button class="prop-btn" id="btn-prop-lock" title="${active.lockMovementX ? 'Unlock element' : 'Lock element'}">
+        <i class="fa-solid ${active.lockMovementX ? 'fa-lock text-amber-400' : 'fa-lock-open'}"></i>
+      </button>
+      <button class="prop-btn" id="btn-prop-del" title="Delete" style="color:#EF4444;">
+        <i class="fa-solid fa-trash-can"></i>
+      </button>
+    </div>`;
 
     propToolbar.innerHTML = html;
 
@@ -876,10 +967,79 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('btn-prop-align-h')?.addEventListener('click', () => engine.alignActive('center'));
     document.getElementById('btn-prop-align-v')?.addEventListener('click', () => engine.alignActive('middle'));
     document.getElementById('btn-prop-up')?.addEventListener('click', () => engine.bringToFront());
-    document.getElementById('btn-prop-down')?.addEventListener('click', () => engine.sendToBack());
-    document.getElementById('btn-prop-dup')?.addEventListener('click', () => engine.duplicateActive());
+    document.getElementById('btn-prop-position')?.addEventListener('click', () => engine.bringToFront());
     document.getElementById('btn-prop-lock')?.addEventListener('click', () => engine.toggleLockActive());
     document.getElementById('btn-prop-del')?.addEventListener('click', () => engine.deleteActive());
+
+    // Stepper Handlers (- 90 +)
+    document.getElementById('btn-font-dec')?.addEventListener('click', () => {
+      const current = Math.round(active.fontSize || 40);
+      const next = Math.max(8, current - 2);
+      active.set('fontSize', next);
+      const valInput = document.getElementById('prop-font-size-val');
+      if (valInput) valInput.value = next;
+      engine.canvas.renderAll();
+      engine.recordHistory();
+    });
+
+    document.getElementById('btn-font-inc')?.addEventListener('click', () => {
+      const current = Math.round(active.fontSize || 40);
+      const next = Math.min(300, current + 2);
+      active.set('fontSize', next);
+      const valInput = document.getElementById('prop-font-size-val');
+      if (valInput) valInput.value = next;
+      engine.canvas.renderAll();
+      engine.recordHistory();
+    });
+
+    document.getElementById('prop-font-size-val')?.addEventListener('change', (e) => {
+      const next = parseInt(e.target.value, 10) || 40;
+      active.set('fontSize', next);
+      engine.canvas.renderAll();
+      engine.recordHistory();
+    });
+
+    document.getElementById('btn-trigger-color')?.addEventListener('click', () => {
+      document.getElementById('prop-text-col')?.click();
+    });
+
+    document.getElementById('btn-prop-underline')?.addEventListener('click', () => {
+      active.set('underline', !active.underline);
+      engine.canvas.renderAll();
+      renderPropertyToolbar(active);
+    });
+
+    document.getElementById('btn-prop-strike')?.addEventListener('click', () => {
+      active.set('linethrough', !active.linethrough);
+      engine.canvas.renderAll();
+      renderPropertyToolbar(active);
+    });
+
+    document.getElementById('btn-prop-case')?.addEventListener('click', () => {
+      const text = active.text || '';
+      active.set('text', text === text.toUpperCase() ? text.toLowerCase() : text.toUpperCase());
+      engine.canvas.renderAll();
+      engine.recordHistory();
+    });
+
+    document.getElementById('btn-prop-align-text')?.addEventListener('click', () => {
+      const aligns = ['left', 'center', 'right', 'justify'];
+      const nextIdx = (aligns.indexOf(active.textAlign || 'left') + 1) % aligns.length;
+      active.set('textAlign', aligns[nextIdx]);
+      engine.canvas.renderAll();
+      engine.recordHistory();
+    });
+
+    document.getElementById('btn-prop-effects')?.addEventListener('click', () => {
+      // Toggle drop shadow effect
+      if (!active.shadow) {
+        active.set('shadow', new fabric.Shadow({ color: 'rgba(0,0,0,0.5)', blur: 15, offsetX: 5, offsetY: 5 }));
+      } else {
+        active.set('shadow', null);
+      }
+      engine.canvas.renderAll();
+      engine.recordHistory();
+    });
 
     document.getElementById('prop-font-family')?.addEventListener('change', (e) => {
       const f = e.target.value;

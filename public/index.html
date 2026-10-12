@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800;900&family=Caveat:wght@700&family=Playfair+Display:ital,wght@0,700;1,700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="/vendor/fabric.min.js"></script>
 </head>
 <body>
@@ -29,7 +30,7 @@
       </button>
 
       <button class="nav-action-pill" id="btn-nav-home" title="Home Dashboard">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <i class="fa-solid fa-house"></i>
         <span>Home</span>
       </button>
 
@@ -39,7 +40,7 @@
       <input type="text" id="project-title" class="project-title-box" value="Untitled design" spellcheck="false" title="Click to rename design">
 
       <div class="cloud-status" title="Local-First: Auto-saved to SQLite (canva_local.db)">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><polyline points="9 13 11 15 15 11"/></svg>
+        <i class="fa-solid fa-cloud-check" style="font-size:13px; color:#10B981;"></i>
         <span class="cloud-status-text">Saved</span>
       </div>
     </div>
@@ -56,18 +57,18 @@
       </select>
 
       <button class="nav-icon-btn" id="btn-undo" title="Undo (Ctrl+Z)">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+        <i class="fa-solid fa-arrow-rotate-left"></i>
       </button>
 
       <button class="nav-icon-btn" id="btn-redo" title="Redo (Ctrl+Y)">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
+        <i class="fa-solid fa-arrow-rotate-right"></i>
       </button>
     </div>
 
     <!-- RIGHT GROUP: CLEAN SHARE BUTTON ONLY -->
     <div class="nav-right-group">
       <button class="btn-studio-share" id="btn-share-export" title="Export & Share">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <i class="fa-solid fa-share-nodes"></i>
         <span>Share</span>
       </button>
     </div>
@@ -126,42 +127,42 @@
     <!-- LEFT TOOL RAIL -->
     <nav class="studio-rail">
       <button class="rail-item active" data-tab="templates" title="Templates">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        <i class="fa-solid fa-shapes"></i>
         <span>Templates</span>
       </button>
 
       <button class="rail-item" data-tab="elements" title="Elements">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="8" cy="8" r="4"/><rect width="8" height="8" x="12" y="12" rx="1"/></svg>
+        <i class="fa-solid fa-icons"></i>
         <span>Elements</span>
       </button>
 
       <button class="rail-item" data-tab="text" title="Text">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>
+        <i class="fa-solid fa-font"></i>
         <span>Text</span>
       </button>
 
       <button class="rail-item" data-tab="photos" title="Photos">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+        <i class="fa-solid fa-image"></i>
         <span>Photos</span>
       </button>
 
       <button class="rail-item" data-tab="uploads" title="Uploads">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <i class="fa-solid fa-cloud-arrow-up"></i>
         <span>Uploads</span>
       </button>
 
       <button class="rail-item" data-tab="mockups" title="Frames">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg>
+        <i class="fa-solid fa-crop-simple"></i>
         <span>Frames</span>
       </button>
 
       <button class="rail-item" data-tab="layers" title="Layers">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        <i class="fa-solid fa-layer-group"></i>
         <span>Layers</span>
       </button>
 
       <button class="rail-item" data-tab="background" title="Background">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/></svg>
+        <i class="fa-solid fa-fill-drip"></i>
         <span>Canvas</span>
       </button>
     </nav>
@@ -199,20 +200,20 @@
 
             <div class="page-actions-group">
               <button class="page-action-btn" id="btn-page-prev" title="Previous page">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+                <i class="fa-solid fa-chevron-left" style="font-size:12px;"></i>
               </button>
               <button class="page-action-btn" id="btn-page-next" title="Next page">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                <i class="fa-solid fa-chevron-right" style="font-size:12px;"></i>
               </button>
               <div class="page-action-divider"></div>
               <button class="page-action-btn" id="btn-page-duplicate" title="Duplicate page">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <i class="fa-regular fa-clone" style="font-size:12px;"></i>
               </button>
               <button class="page-action-btn" id="btn-page-delete" title="Delete page">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                <i class="fa-regular fa-trash-can" style="font-size:12px;"></i>
               </button>
               <button class="page-action-btn page-action-btn-highlight" id="btn-page-add" title="Add new page">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <i class="fa-solid fa-plus" style="font-size:12px;"></i>
                 <span>Add page</span>
               </button>
             </div>
@@ -228,7 +229,7 @@
         <!-- BIG ADD PAGE ACTION BUTTON -->
         <div class="stage-add-page-wrap">
           <button class="btn-stage-add-page" id="btn-stage-add-page">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <i class="fa-solid fa-plus" style="font-size:14px;"></i>
             <span>Add page</span>
           </button>
         </div>
@@ -239,7 +240,7 @@
       <footer class="studio-bottom-bar">
         <div class="bottom-left-tools">
           <button class="bottom-page-pill" id="btn-pages-summary">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            <i class="fa-solid fa-table-cells-large" style="font-size:12px;"></i>
             <span id="bottom-page-count-label">Page 1 of 1</span>
           </button>
         </div>
@@ -253,7 +254,7 @@
           </div>
 
           <button class="bottom-tool-item" id="btn-fit-screen" title="Fit to screen">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            <i class="fa-solid fa-expand" style="font-size:12px;"></i>
             <span>Fit</span>
           </button>
         </div>
