@@ -15,9 +15,16 @@ class CanvasEngine {
     this.isHistoryProcessing = false;
     this.maxHistory = 40;
 
+    // Multi-page state
+    this.pages = [
+      { id: 'page-1', title: 'Page 1', json: null }
+    ];
+    this.currentPageIndex = 0;
+
     // Callbacks
     this.onSelectionChange = null;
     this.onCanvasModified = null;
+    this.onPagesChanged = null;
   }
 
   init(width = 800, height = 800) {
@@ -562,7 +569,137 @@ class CanvasEngine {
     this._handleSelection(obj);
   }
 
-  // --- UNDO / REDO HISTORY ---
+  flipHorizontal() {
+    const obj = this.canvas.getActiveObject();
+    if (!obj) return;
+    obj.set('flipX', !obj.flipX);
+    this.canvas.renderAll();
+    this.recordHistory();
+  }
+
+  flipVertical() {
+    const obj = this.canvas.getActiveObject();
+    if (!obj) return;
+    obj.set('flipY', !obj.flipY);
+    this.canvas.renderAll();
+    this.recordHistory();
+  }
+
+  // --- MULTI-PAGE CONTROLLER ---
+
+  saveCurrentPageState() {
+    if (!this.pages[this.currentPageIndex]) return;
+    this.pages[this.currentPageIndex].json = this.canvas.toJSON(['customData']);
+  }
+
+  async switchPage(targetIndex) {
+    if (targetIndex < 0 || targetIndex >= this.pages.length) return;
+    if (targetIndex === this.currentPageIndex) return;
+
+    this.saveCurrentPageState();
+    this.currentPageIndex = targetIndex;
+
+    const targetPage = this.pages[targetIndex];
+    if (targetPage.json) {
+      await this.loadFromJSON(targetPage.json);
+    } else {
+      this.isHistoryProcessing = true;
+      this.canvas.clear();
+      this.canvas.backgroundColor = '#FFFFFF';
+      this.canvas.renderAll();
+      this.isHistoryProcessing = false;
+      this.history = [];
+      this.historyIndex = -1;
+      this.recordHistory();
+    }
+
+    if (this.onPagesChanged) {
+      this.onPagesChanged(this.pages, this.currentPageIndex);
+    }
+  }
+
+  async addPage(title = null) {
+    this.saveCurrentPageState();
+
+    const newIndex = this.pages.length;
+    const pageTitle = title || `Page ${newIndex + 1}`;
+    this.pages.push({
+      id: `page-${Date.now()}`,
+      title: pageTitle,
+      json: null,
+    });
+
+    this.currentPageIndex = newIndex;
+    this.isHistoryProcessing = true;
+    this.canvas.clear();
+    this.canvas.backgroundColor = '#FFFFFF';
+    this.canvas.renderAll();
+    this.isHistoryProcessing = false;
+    this.history = [];
+    this.historyIndex = -1;
+    this.recordHistory();
+
+    if (this.onPagesChanged) {
+      this.onPagesChanged(this.pages, this.currentPageIndex);
+    }
+  }
+
+  async duplicatePage(index = null) {
+    const targetIdx = index !== null ? index : this.currentPageIndex;
+    this.saveCurrentPageState();
+
+    const sourcePage = this.pages[targetIdx];
+    const newPage = {
+      id: `page-${Date.now()}`,
+      title: `${sourcePage.title} (Copy)`,
+      json: JSON.parse(JSON.stringify(sourcePage.json || this.canvas.toJSON(['customData']))),
+    };
+
+    this.pages.splice(targetIdx + 1, 0, newPage);
+    await this.switchPage(targetIdx + 1);
+  }
+
+  async deletePage(index = null) {
+    if (this.pages.length <= 1) {
+      // Don't delete only page, just clear
+      this.canvas.clear();
+      this.canvas.backgroundColor = '#FFFFFF';
+      this.canvas.renderAll();
+      this.recordHistory();
+      return;
+    }
+
+    const targetIdx = index !== null ? index : this.currentPageIndex;
+    this.pages.splice(targetIdx, 0);
+    this.pages.splice(targetIdx, 1);
+
+    if (this.currentPageIndex >= this.pages.length) {
+      this.currentPageIndex = this.pages.length - 1;
+    }
+
+    const newActive = this.pages[this.currentPageIndex];
+    if (newActive.json) {
+      await this.loadFromJSON(newActive.json);
+    } else {
+      this.canvas.clear();
+      this.canvas.backgroundColor = '#FFFFFF';
+      this.canvas.renderAll();
+      this.recordHistory();
+    }
+
+    if (this.onPagesChanged) {
+      this.onPagesChanged(this.pages, this.currentPageIndex);
+    }
+  }
+
+  setPageTitle(index, title) {
+    if (this.pages[index]) {
+      this.pages[index].title = title;
+      if (this.onPagesChanged) {
+        this.onPagesChanged(this.pages, this.currentPageIndex);
+      }
+    }
+  }
 
   recordHistory() {
     if (this.isHistoryProcessing) return;

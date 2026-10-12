@@ -927,44 +927,114 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (dimensionSelector) dimensionSelector.value = key;
   }
 
-  // --- ZOOM SLIDER (CIRCULAR THUMB) & PERCENT SYNC ---
+  // --- ZOOM CONTROLS ---
   zoomRange?.addEventListener('input', (e) => {
     const val = parseFloat(e.target.value);
     engine.setZoom(val);
-    const pct = `${Math.round(val * 100)}%`;
-    zoomPercent.textContent = pct;
-    headerZoomLabel.textContent = pct;
+    zoomPercent.textContent = `${Math.round(val * 100)}%`;
   });
 
+  document.getElementById('btn-zoom-out')?.addEventListener('click', () => {
+    const newZoom = Math.max(0.2, (parseFloat(zoomRange.value) || 1) - 0.1);
+    engine.setZoom(newZoom);
+    zoomRange.value = newZoom;
+    zoomPercent.textContent = `${Math.round(newZoom * 100)}%`;
+  });
+
+  document.getElementById('btn-zoom-in')?.addEventListener('click', () => {
+    const newZoom = Math.min(2.5, (parseFloat(zoomRange.value) || 1) + 0.1);
+    engine.setZoom(newZoom);
+    zoomRange.value = newZoom;
+    zoomPercent.textContent = `${Math.round(newZoom * 100)}%`;
+  });
+
+  document.getElementById('btn-fit-screen')?.addEventListener('click', fitCanvas);
+
   function fitCanvas() {
-    const availW = window.innerWidth - 450;
+    const availW = window.innerWidth - 420;
     const availH = window.innerHeight - 200;
     const scale = Math.min(availW / engine.width, availH / engine.height, 1);
     engine.setZoom(scale);
-    zoomRange.value = scale;
-    const pct = `${Math.round(scale * 100)}%`;
-    zoomPercent.textContent = pct;
-    headerZoomLabel.textContent = pct;
+    if (zoomRange) zoomRange.value = scale;
+    if (zoomPercent) zoomPercent.textContent = `${Math.round(scale * 100)}%`;
   }
 
-  // --- PAGE ACTIONS (DUPLICATE, DELETE, ADD, LOCK) ---
-  document.getElementById('btn-page-duplicate')?.addEventListener('click', () => {
-    alert('Page duplicated as Page 2.');
+  // --- MULTI-PAGE ENGINE & CONTROLS ---
+  function updatePageUI() {
+    const total = engine.pages.length;
+    const current = engine.currentPageIndex;
+    const activePage = engine.pages[current] || { title: `Page ${current + 1}` };
+
+    const badge = document.getElementById('page-index-badge');
+    if (badge) badge.textContent = `${current + 1}`;
+
+    const titleInput = document.getElementById('page-title-input');
+    if (titleInput) titleInput.value = activePage.title;
+
+    const bottomLabel = document.getElementById('bottom-page-count-label');
+    if (bottomLabel) bottomLabel.textContent = `Page ${current + 1} of ${total}`;
+
+    // Enable/disable navigation buttons
+    const prevBtn = document.getElementById('btn-page-prev');
+    const nextBtn = document.getElementById('btn-page-next');
+    if (prevBtn) prevBtn.style.opacity = current > 0 ? '1' : '0.4';
+    if (nextBtn) nextBtn.style.opacity = current < total - 1 ? '1' : '0.4';
+  }
+
+  engine.onPagesChanged = updatePageUI;
+  updatePageUI();
+
+  // Add Page buttons
+  document.getElementById('btn-page-add')?.addEventListener('click', async () => {
+    await engine.addPage();
+    updatePageUI();
   });
 
-  document.getElementById('btn-page-delete')?.addEventListener('click', () => {
-    if (confirm('Clear current page?')) {
-      engine.canvas.clear();
-      engine.setBackgroundColor('#FFFFFF');
+  document.getElementById('btn-stage-add-page')?.addEventListener('click', async () => {
+    await engine.addPage();
+    updatePageUI();
+  });
+
+  // Duplicate Page
+  document.getElementById('btn-page-duplicate')?.addEventListener('click', async () => {
+    await engine.duplicatePage();
+    updatePageUI();
+  });
+
+  // Delete Page
+  document.getElementById('btn-page-delete')?.addEventListener('click', async () => {
+    if (engine.pages.length > 1) {
+      if (confirm('Delete current page?')) {
+        await engine.deletePage();
+        updatePageUI();
+      }
+    } else {
+      if (confirm('Clear current page?')) {
+        engine.canvas.clear();
+        engine.setBackgroundColor('#FFFFFF');
+        engine.recordHistory();
+      }
     }
   });
 
-  document.getElementById('btn-page-add')?.addEventListener('click', () => {
-    alert('Added Page 2.');
+  // Switch Page navigation
+  document.getElementById('btn-page-prev')?.addEventListener('click', async () => {
+    if (engine.currentPageIndex > 0) {
+      await engine.switchPage(engine.currentPageIndex - 1);
+      updatePageUI();
+    }
   });
 
-  document.getElementById('add-page-placeholder')?.addEventListener('click', () => {
-    alert('Editing Page 2.');
+  document.getElementById('btn-page-next')?.addEventListener('click', async () => {
+    if (engine.currentPageIndex < engine.pages.length - 1) {
+      await engine.switchPage(engine.currentPageIndex + 1);
+      updatePageUI();
+    }
+  });
+
+  // Rename Page Title
+  document.getElementById('page-title-input')?.addEventListener('input', (e) => {
+    engine.setPageTitle(engine.currentPageIndex, e.target.value.trim() || `Page ${engine.currentPageIndex + 1}`);
   });
 
   // --- UNDO / REDO ---
@@ -983,10 +1053,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     clearTimeout(saveTimer);
     saveTimer = setTimeout(async () => {
       try {
+        engine.saveCurrentPageState();
         const payload = {
           id: currentProjectId,
           title: projectTitle,
-          canvas_json: engine.exportJSON(),
+          canvas_json: JSON.stringify(engine.pages),
+          thumbnail: engine.exportPNG(0.3),
           width: engine.width,
           height: engine.height,
         };
@@ -1019,85 +1091,265 @@ document.addEventListener('DOMContentLoaded', async () => {
     URL.revokeObjectURL(url);
   });
   document.getElementById('export-json')?.addEventListener('click', () => {
-    const blob = new Blob([engine.exportJSON()], { type: 'application/json' });
+    engine.saveCurrentPageState();
+    const blob = new Blob([JSON.stringify(engine.pages, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    downloadURI(url, `${slugify(projectTitle)}.json`);
+    downloadURI(url, `${slugify(projectTitle)}_pages.json`);
     URL.revokeObjectURL(url);
   });
   document.getElementById('export-server-rust')?.addEventListener('click', async () => {
     await API.exportRender(engine.exportPNG(2), 'png');
   });
 
-  // --- PROJECTS MODAL ---
-  const projectsModal = document.getElementById('projects-modal');
-  const btnOpenProjects = document.getElementById('btn-open-projects');
-  const btnCloseProjects = document.getElementById('btn-close-projects');
-  const projectsList = document.getElementById('projects-list-container');
-  const btnNewProject = document.getElementById('btn-new-project');
+  // --- HOME SCREEN DASHBOARD ---
+  const homeScreen = document.getElementById('home-screen-view');
+  const editorWorkspace = document.getElementById('editor-workspace');
+  const homeProjectsGrid = document.getElementById('home-projects-grid');
+  const homeSearchInput = document.getElementById('home-search-input');
 
-  btnOpenProjects?.addEventListener('click', () => {
-    projectsModal.classList.add('open');
-    renderProjectsModal();
+  function openHomeScreen() {
+    homeScreen.classList.remove('hidden');
+    editorWorkspace.classList.add('hidden');
+    renderHomeProjects();
+  }
+
+  function closeHomeScreen() {
+    homeScreen.classList.add('hidden');
+    editorWorkspace.classList.remove('hidden');
+    fitCanvas();
+  }
+
+  document.getElementById('btn-home-toggle')?.addEventListener('click', openHomeScreen);
+  document.getElementById('btn-nav-home')?.addEventListener('click', openHomeScreen);
+  document.getElementById('btn-return-to-editor')?.addEventListener('click', closeHomeScreen);
+
+  // Home Screen Format Preset Cards
+  document.querySelectorAll('.home-preset-card[data-w]').forEach((card) => {
+    card.addEventListener('click', () => {
+      const w = parseInt(card.dataset.w, 10);
+      const h = parseInt(card.dataset.h, 10);
+      currentProjectId = null;
+      projectTitle = `${card.querySelector('.preset-name')?.textContent || 'New design'}`;
+      projectTitleInput.value = projectTitle;
+      engine.setDimensions(w, h);
+      updateDimensionSelector(w, h);
+      engine.pages = [{ id: 'page-1', title: 'Page 1', json: null }];
+      engine.currentPageIndex = 0;
+      engine.canvas.clear();
+      engine.setBackgroundColor('#FFFFFF');
+      updatePageUI();
+      closeHomeScreen();
+    });
   });
 
-  btnCloseProjects?.addEventListener('click', () => {
-    projectsModal.classList.remove('open');
+  // Custom Size Creator
+  document.getElementById('btn-create-custom')?.addEventListener('click', () => {
+    const w = parseInt(document.getElementById('custom-w').value, 10) || 800;
+    const h = parseInt(document.getElementById('custom-h').value, 10) || 800;
+    currentProjectId = null;
+    projectTitle = `Custom ${w}x${h} design`;
+    projectTitleInput.value = projectTitle;
+    engine.setDimensions(w, h);
+    updateDimensionSelector(w, h);
+    engine.pages = [{ id: 'page-1', title: 'Page 1', json: null }];
+    engine.currentPageIndex = 0;
+    engine.canvas.clear();
+    engine.setBackgroundColor('#FFFFFF');
+    updatePageUI();
+    closeHomeScreen();
   });
 
-  btnNewProject?.addEventListener('click', () => {
+  // Blank Canvas Creator
+  document.getElementById('btn-home-blank-design')?.addEventListener('click', () => {
     currentProjectId = null;
     projectTitle = 'Untitled design';
     projectTitleInput.value = projectTitle;
+    engine.setDimensions(800, 800);
+    updateDimensionSelector(800, 800);
+    engine.pages = [{ id: 'page-1', title: 'Page 1', json: null }];
+    engine.currentPageIndex = 0;
     engine.canvas.clear();
     engine.setBackgroundColor('#FFFFFF');
-    setupInitialCanvaSample();
-    projectsModal.classList.remove('open');
+    updatePageUI();
+    closeHomeScreen();
   });
 
-  async function renderProjectsModal() {
-    projectsList.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-dim);">Loading designs...</div>';
-    const projects = await API.getProjects();
-    if (projects.length === 0) {
-      projectsList.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-dim);">No saved designs yet.</div>';
-      return;
+  // Render Projects on Home Screen from SQLite
+  async function renderHomeProjects(query = '') {
+    homeProjectsGrid.innerHTML = '<div style="color:var(--text-dim); padding:20px; font-size:12px;">Loading saved designs from SQLite...</div>';
+    try {
+      const projects = await API.getProjects();
+      const filtered = query
+        ? projects.filter(p => p.title.toLowerCase().includes(query.toLowerCase()))
+        : projects;
+
+      if (!filtered || filtered.length === 0) {
+        homeProjectsGrid.innerHTML = `
+          <div style="grid-column: 1 / -1; padding: 40px; text-align: center; background: var(--bg-panel); border: 1px dashed var(--border-default); border-radius: 10px;">
+            <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">No designs found</div>
+            <div style="font-size: 12px; color: var(--text-dim);">Click any preset format above to start creating.</div>
+          </div>
+        `;
+        return;
+      }
+
+      homeProjectsGrid.innerHTML = filtered.map(p => `
+        <div class="home-project-card" data-id="${p.id}">
+          <button class="btn-delete-project-card" data-id="${p.id}" title="Delete design">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/></svg>
+          </button>
+          <div class="project-thumb-box" data-id="${p.id}">
+            ${p.thumbnail ? `<img src="${p.thumbnail}" alt="${p.title}">` : `<div style="font-size:32px; color:var(--text-dim);">🎨</div>`}
+          </div>
+          <div class="project-info-box" data-id="${p.id}">
+            <span class="project-card-title">${p.title}</span>
+            <span class="project-card-date">${p.width} × ${p.height} px · ${new Date(p.updated_at).toLocaleDateString()}</span>
+          </div>
+        </div>
+      `).join('');
+
+      // Open project click handlers
+      homeProjectsGrid.querySelectorAll('.home-project-card, .project-thumb-box, .project-info-box').forEach(el => {
+        el.addEventListener('click', async (e) => {
+          if (e.target.closest('.btn-delete-project-card')) return;
+          const id = el.dataset.id || el.closest('.home-project-card')?.dataset.id;
+          if (!id) return;
+          const p = await API.getProject(id);
+          currentProjectId = p.id;
+          projectTitle = p.title;
+          projectTitleInput.value = p.title;
+          engine.setDimensions(p.width, p.height);
+          updateDimensionSelector(p.width, p.height);
+
+          try {
+            const parsed = JSON.parse(p.canvas_json);
+            if (Array.isArray(parsed)) {
+              engine.pages = parsed;
+              engine.currentPageIndex = 0;
+              if (parsed[0] && parsed[0].json) {
+                await engine.loadFromJSON(parsed[0].json);
+              }
+            } else {
+              engine.pages = [{ id: 'page-1', title: 'Page 1', json: parsed }];
+              engine.currentPageIndex = 0;
+              await engine.loadFromJSON(parsed);
+            }
+          } catch (_) {
+            await engine.loadFromJSON(p.canvas_json);
+          }
+
+          updatePageUI();
+          closeHomeScreen();
+        });
+      });
+
+      // Delete project click handlers
+      homeProjectsGrid.querySelectorAll('.btn-delete-project-card').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const id = btn.dataset.id;
+          if (confirm('Delete this design permanently?')) {
+            await API.deleteProject(id);
+            if (currentProjectId === id) currentProjectId = null;
+            renderHomeProjects(homeSearchInput.value);
+          }
+        });
+      });
+    } catch (err) {
+      console.warn('Projects load error:', err);
+      homeProjectsGrid.innerHTML = '<div style="color:var(--text-dim); padding:20px;">Could not load designs.</div>';
     }
+  }
 
-    projectsList.innerHTML = projects.map(p => `
-      <div class="asset-card" style="padding:10px 14px; display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; background:#313238;">
-        <div>
-          <div style="font-weight:600; font-size:13px;">${p.title}</div>
-          <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">${p.width}×${p.height} px · ${new Date(p.updated_at).toLocaleDateString()}</div>
-        </div>
-        <div style="display:flex; gap:6px;">
-          <button class="nav-pill-btn open-p" data-id="${p.id}" style="background:#00C4CC; color:#0E1318; font-weight:600; font-size:11px;">Open</button>
-          <button class="nav-pill-btn del-p" data-id="${p.id}" style="color:#EF4444; font-size:11px;">Delete</button>
-        </div>
-      </div>
-    `).join('');
+  homeSearchInput?.addEventListener('input', (e) => {
+    renderHomeProjects(e.target.value);
+  });
 
-    projectsList.querySelectorAll('.open-p').forEach((b) => {
-      b.addEventListener('click', async () => {
-        const p = await API.getProject(b.dataset.id);
-        currentProjectId = p.id;
-        projectTitle = p.title;
-        projectTitleInput.value = p.title;
-        engine.setDimensions(p.width, p.height);
-        updateDimensionSelector(p.width, p.height);
-        await engine.loadFromJSON(p.canvas_json);
-        projectsModal.classList.remove('open');
-        fitCanvas();
-      });
-    });
+  // --- RIGHT-CLICK CONTEXT MENU ON CANVAS ELEMENTS ---
+  const ctxMenu = document.getElementById('canvas-context-menu');
 
-    projectsList.querySelectorAll('.del-p').forEach((b) => {
-      b.addEventListener('click', async () => {
-        if (confirm('Delete this design?')) {
-          await API.deleteProject(b.dataset.id);
-          renderProjectsModal();
-        }
-      });
+  if (engine.canvas && engine.canvas.upperCanvasEl) {
+    engine.canvas.upperCanvasEl.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const target = engine.canvas.findTarget(e);
+      if (target) {
+        engine.canvas.setActiveObject(target);
+        engine.canvas.renderAll();
+      }
+
+      const activeObj = engine.canvas.getActiveObject();
+      if (!activeObj) {
+        ctxMenu.style.display = 'none';
+        return;
+      }
+
+      // Position context menu
+      const posX = Math.min(e.clientX, window.innerWidth - 210);
+      const posY = Math.min(e.clientY, window.innerHeight - 340);
+      ctxMenu.style.left = `${posX}px`;
+      ctxMenu.style.top = `${posY}px`;
+      ctxMenu.style.display = 'flex';
     });
   }
+
+  // Dismiss context menu
+  document.addEventListener('click', () => {
+    if (ctxMenu) ctxMenu.style.display = 'none';
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && ctxMenu) {
+      ctxMenu.style.display = 'none';
+    }
+  });
+
+  // Context Menu Item Actions
+  ctxMenu?.querySelectorAll('.ctx-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const action = item.dataset.action;
+      ctxMenu.style.display = 'none';
+
+      switch (action) {
+        case 'duplicate':
+          engine.duplicateActive();
+          break;
+        case 'delete':
+          engine.deleteActive();
+          break;
+        case 'bring-to-front':
+          engine.bringToFront();
+          break;
+        case 'bring-forward':
+          engine.bringForward();
+          break;
+        case 'send-backward':
+          engine.sendBackward();
+          break;
+        case 'send-to-back':
+          engine.sendToBack();
+          break;
+        case 'flip-h':
+          engine.flipHorizontal();
+          break;
+        case 'flip-v':
+          engine.flipVertical();
+          break;
+        case 'toggle-lock':
+          engine.toggleLockActive();
+          break;
+        case 'export-selection':
+          const obj = engine.canvas.getActiveObject();
+          if (obj) {
+            const dataUrl = obj.toDataURL({ format: 'png', multiplier: 2 });
+            downloadURI(dataUrl, 'element_selection.png');
+          }
+          break;
+      }
+    });
+  });
 
   // --- SHORTCUTS ---
   document.addEventListener('keydown', (e) => {
