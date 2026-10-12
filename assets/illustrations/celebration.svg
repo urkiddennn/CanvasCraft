@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%">
+    <defs>
+      <linearGradient id="celBg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FEFCE8"/>
+        <stop offset="100%" stop-color="#FEF08A"/>
+      </linearGradient>
+    </defs>
+    <rect width="500" height="400" rx="20" fill="url(#celBg)"/>
+    <!-- Trophy Cup -->
+    <path d="M180,100 L320,100 L300,210 C300,250 200,250 200,210 Z" fill="#F59E0B" filter="drop-shadow(0 12px 20px rgba(245,158,11,0.3))"/>
+    <path d="M190,110 L310,110 L292,205 C292,238 208,238 208,205 Z" fill="#FBBF24"/>
+    <!-- Trophy Handles -->
+    <path d="M180,120 C130,120 130,190 185,190" fill="none" stroke="#D97706" stroke-width="12" stroke-linecap="round"/>
+    <path d="M320,120 C370,120 370,190 315,190" fill="none" stroke="#D97706" stroke-width="12" stroke-linecap="round"/>
+    <!-- Trophy Stem & Base -->
+    <rect x="235" y="240" width="30" height="50" rx="4" fill="#B45309"/>
+    <polygon points="190,330 310,330 290,290 210,290" fill="#78350F"/>
+    <polygon points="195,325 305,325 288,295 212,295" fill="#92400E"/>
+    <!-- Star on Cup -->
+    <polygon points="250,140 256,155 272,156 260,167 264,182 250,174 236,182 240,167 228,156 244,155" fill="#FFFFFF"/>
+    <!-- Confetti Streamers -->
+    <rect x="90" y="80" width="12" height="24" rx="4" fill="#EF4444" transform="rotate(35, 96, 92)"/>
+    <rect x="140" y="50" width="10" height="20" rx="3" fill="#3B82F6" transform="rotate(-20, 145, 60)"/>
+    <rect x="360" y="70" width="14" height="26" rx="4" fill="#10B981" transform="rotate(45, 367, 83)"/>
+    <rect x="410" y="110" width="10" height="22" rx="3" fill="#EC4899" transform="rotate(-30, 415, 121)"/>
+    <circle cx="110" cy="180" r="8" fill="#8B5CF6"/>
+    <circle cx="390" cy="220" r="8" fill="#F97316"/>
+  </svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+    <defs>
+      <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FF416C"/>
+        <stop offset="100%" stop-color="#FF4B2B"/>
+      </linearGradient>
+    </defs>
+    <path d="M100 10 L126 36 L162 26 L172 62 L200 88 L188 123 L200 159 L165 174 L149 207 L114 197 L86 207 L70 174 L35 159 L47 123 L35 88 L63 62 L73 26 L109 36 Z" fill="url(#g1)" filter="drop-shadow(0 4px 12px rgba(255,65,108,0.4))"/>
+    <text x="100" y="112" font-family="'Inter', sans-serif" font-weight="900" font-size="34" fill="#ffffff" text-anchor="middle" letter-spacing="2">SALE</text>
+    <text x="100" y="136" font-family="'Inter', sans-serif" font-weight="700" font-size="16" fill="#FFE57F" text-anchor="middle">50% OFF</text>
+  </svg>

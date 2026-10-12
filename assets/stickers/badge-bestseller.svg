@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+    <circle cx="80" cy="80" r="72" fill="#F7971E" stroke="#FFD200" stroke-width="6"/>
+    <polygon points="80,25 97,60 135,65 107,92 114,130 80,112 46,130 53,92 25,65 63,60" fill="#FFE066"/>
+    <circle cx="80" cy="80" r="38" fill="#F7971E"/>
+    <text x="80" y="86" font-family="sans-serif" font-weight="900" font-size="14" fill="#FFFFFF" text-anchor="middle">BEST SELLER</text>
+  </svg>

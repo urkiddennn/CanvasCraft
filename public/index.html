@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EazeGraphics — Design Editor</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800;900&family=Caveat:wght@700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/vendor/fabric.min.js"></script>
+</head>
+<body>
+
+  <!-- TOP CANVA TEAL NAVBAR -->
+  <header class="canva-navbar">
+    <div class="nav-left-group">
+      <button class="nav-home-btn" id="btn-open-projects" title="Home / Projects">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </button>
+
+      <button class="nav-pill-btn" id="btn-file-menu">File</button>
+      
+      <select id="canvas-dimensions-select" class="nav-pill-btn" style="background:rgba(255,255,255,0.15); outline:none; border:none; cursor:pointer;">
+        <option value="600x600" style="color:#000;">Resize (600 × 600)</option>
+        <option value="800x800" style="color:#000;">Square (800 × 800)</option>
+        <option value="1080x1080" style="color:#000;">Instagram Post (1080 × 1080)</option>
+        <option value="1080x1920" style="color:#000;">Story / Reel (1080 × 1920)</option>
+        <option value="1280x720" style="color:#000;">YouTube Video (1280 × 720)</option>
+      </select>
+
+      <button class="nav-pill-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        <span>Editing</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+
+      <div class="cloud-status" title="All changes saved to local SQLite database">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><polyline points="9 13 11 15 15 11"/></svg>
+      </div>
+
+      <input type="text" id="project-title" class="project-title-box" value="Untitled design">
+    </div>
+
+    <div class="nav-right-group">
+      <span style="font-size:12px; font-weight:600; color:rgba(255,255,255,0.9);" id="header-zoom-label">50%</span>
+      
+      <div class="avatar-circle" title="User account">R</div>
+
+      <button class="nav-pill-btn" style="padding:6px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+      </button>
+
+      <!-- SHARE / DOWNLOAD BUTTON -->
+      <button class="btn-share" id="btn-share-export">
+        <span>Share</span>
+      </button>
+
+      <button class="btn-teacher">
+        <span>Send to teacher</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- SHARE / EXPORT DROPDOWN -->
+  <div class="export-dropdown-card" id="export-menu">
+    <div style="font-size:11px; font-weight:600; color:var(--text-dim); padding:4px 8px; text-transform:uppercase;">Download Graphic</div>
+    <div class="export-menu-item" id="export-png-1x">
+      <span>PNG image</span>
+      <span style="font-size:11px; color:var(--text-dim);">Best for web</span>
+    </div>
+    <div class="export-menu-item" id="export-png-2x">
+      <span>PNG (2x Retina)</span>
+      <span style="font-size:11px; color:#A78BFA;">High-Res</span>
+    </div>
+    <div class="export-menu-item" id="export-jpg">
+      <span>JPG image</span>
+      <span style="font-size:11px; color:var(--text-dim);">Compact</span>
+    </div>
+    <div class="export-menu-item" id="export-svg">
+      <span>SVG vector</span>
+      <span style="font-size:11px; color:var(--text-dim);">Scalable</span>
+    </div>
+    <div class="export-menu-item" id="export-json">
+      <span>Project JSON</span>
+      <span style="font-size:11px; color:var(--text-dim);">Editable</span>
+    </div>
+    <div class="divider-bar" style="width:100%; height:1px; margin:4px 0;"></div>
+    <div class="export-menu-item" id="export-server-rust" style="color:#38BDF8;">
+      <span>⚡ Rust Server Render</span>
+    </div>
+  </div>
+
+  <!-- WORKSPACE -->
+  <main class="canva-workspace">
+
+    <!-- LEFT ICON RAIL (EXACT CANVA ORDER) -->
+    <nav class="canva-rail">
+      <button class="rail-item active" data-tab="templates">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        <span>Templates</span>
+      </button>
+
+      <button class="rail-item" data-tab="elements">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="8" cy="8" r="4"/><rect width="8" height="8" x="12" y="12" rx="1"/></svg>
+        <span>Elements</span>
+      </button>
+
+      <button class="rail-item" data-tab="text">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>
+        <span>Text</span>
+      </button>
+
+      <button class="rail-item" data-tab="photos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+        <span>Photos</span>
+      </button>
+
+      <button class="rail-item" data-tab="uploads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span>Uploads</span>
+      </button>
+
+      <button class="rail-item" data-tab="mockups">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg>
+        <span>Frames</span>
+      </button>
+
+      <button class="rail-item" data-tab="layers">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        <span>Layers</span>
+      </button>
+
+      <button class="rail-item" data-tab="background">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/></svg>
+        <span>Background</span>
+      </button>
+    </nav>
+
+    <!-- DRAWER (COLLAPSIBLE CONTENT ACCORDION) -->
+    <aside class="canva-drawer" id="sidebar-drawer">
+      <div class="drawer-header">
+        <span class="drawer-title" id="drawer-title">Templates</span>
+        <button class="drawer-close-btn" id="btn-close-drawer">✕</button>
+      </div>
+      <div class="drawer-content" id="drawer-body">
+      </div>
+    </aside>
+
+    <!-- CANVAS VIEWPORT AREA -->
+    <section class="canva-viewport-area">
+      
+      <!-- PROPERTY TOOLBAR (DYNAMIC ON SELECTION) -->
+      <div class="canva-prop-toolbar" id="property-toolbar">
+        <div style="font-size:12px; color:var(--text-dim);">Select an element on canvas to customize</div>
+      </div>
+
+      <!-- SCROLLABLE STAGE (PAGE 1, PAGE 2, ETC.) -->
+      <div class="canva-stage-scroll">
+        
+        <!-- PAGE 1 CONTAINER -->
+        <div class="page-container" id="page-1-container">
+          
+          <!-- TOP PAGE HEADER -->
+          <div class="page-header-bar" id="page-header-1">
+            <span class="page-title-label">Page 1 - Add page title</span>
+
+            <div class="page-actions-group">
+              <button class="page-action-btn" id="btn-page-up" title="Move page up">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
+              </button>
+              <button class="page-action-btn" id="btn-page-down" title="Move page down">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <button class="page-action-btn" id="btn-page-hide" title="Hide/Show page">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+              <button class="page-action-btn" id="btn-page-lock" title="Lock page">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </button>
+              <button class="page-action-btn" id="btn-page-duplicate" title="Duplicate page">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              </button>
+              <button class="page-action-btn" id="btn-page-delete" title="Delete page">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+              </button>
+              <button class="page-action-btn" id="btn-page-add" title="Add page">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- WHITE PAPER CANVAS CARD -->
+          <div class="canvas-paper-card" id="canvas-paper-wrap">
+            <canvas id="canvas-viewport" width="600" height="600"></canvas>
+          </div>
+
+        </div>
+
+        <!-- PAGE 2 HEADER PREVIEW (EXACT CANVA MULTI-PAGE LOOK) -->
+        <div class="page-container" id="page-2-container" style="opacity: 0.85;">
+          <div class="page-header-bar" style="width: 600px;">
+            <span class="page-title-label">Page 2 - Add page title</span>
+            <div class="page-actions-group">
+              <button class="page-action-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg></button>
+              <button class="page-action-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+              <button class="page-action-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
+              <button class="page-action-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+            </div>
+          </div>
+          <div style="width:600px; height:80px; background:#fff; border-radius:2px; display:flex; align-items:center; justify-content:center; color:#94A3B8; font-weight:500; font-size:12px; cursor:pointer;" id="add-page-placeholder">
+            + Click to edit page 2
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM CONTROL BAR -->
+      <footer class="canva-bottom-bar">
+        <div class="bottom-left-tools">
+          <div class="bottom-tool-item" id="btn-notes">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Notes</span>
+          </div>
+          <div class="bottom-tool-item" id="btn-timer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Timer</span>
+          </div>
+        </div>
+
+        <div class="bottom-right-tools">
+          <div class="zoom-slider-wrap">
+            <input type="range" class="canva-zoom-slider" id="zoom-range" min="0.3" max="2.5" step="0.05" value="1">
+            <span id="zoom-percentage" style="min-width:36px; font-weight:600;">100%</span>
+          </div>
+
+          <div class="bottom-tool-item" id="btn-grid-view" title="Grid view">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            <span>Pages 1 / 2</span>
+          </div>
+
+          <div class="bottom-tool-item" id="btn-fullscreen" title="Full screen">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+          </div>
+
+          <div class="bottom-tool-item" title="Help">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+        </div>
+      </footer>
+
+    </section>
+
+  </main>
+
+  <!-- SAVED PROJECTS MODAL -->
+  <div class="modal-backdrop" id="projects-modal">
+    <div class="modal-window">
+      <div class="modal-head">
+        <h2 style="font-size:14px; font-weight:600;">My Designs (SQLite)</h2>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-share" id="btn-new-project" style="padding:5px 12px; font-size:12px;">+ New Design</button>
+          <button class="drawer-close-btn" id="btn-close-projects">✕</button>
+        </div>
+      </div>
+      <div class="modal-main" id="projects-list-container">
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/canvas.js"></script>
+  <script src="/js/ui.js"></script>
+
+</body>
+</html>

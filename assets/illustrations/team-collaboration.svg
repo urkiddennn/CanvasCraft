@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%">
+    <defs>
+      <linearGradient id="tcBg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#EFF6FF"/>
+        <stop offset="100%" stop-color="#DBEAFE"/>
+      </linearGradient>
+    </defs>
+    <rect width="500" height="400" rx="20" fill="url(#tcBg)"/>
+    <!-- Meeting Table -->
+    <ellipse cx="250" cy="290" rx="170" ry="50" fill="#93C5FD" opacity="0.6"/>
+    <ellipse cx="250" cy="280" rx="160" ry="44" fill="#FFFFFF" stroke="#3B82F6" stroke-width="4"/>
+    <!-- Laptops on Table -->
+    <rect x="220" y="255" width="60" height="30" rx="4" fill="#334155"/>
+    <polygon points="210,285 290,285 280,290 220,290" fill="#64748B"/>
+    <rect x="140" y="260" width="40" height="22" rx="3" fill="#475569" transform="rotate(15, 160, 270)"/>
+    <rect x="320" y="260" width="40" height="22" rx="3" fill="#475569" transform="rotate(-15, 340, 270)"/>
+    <!-- Person Left -->
+    <circle cx="110" cy="200" r="26" fill="#FBBF24"/>
+    <path d="M70,300 C70,240 150,240 150,300 Z" fill="#6366F1"/>
+    <!-- Person Right -->
+    <circle cx="390" cy="200" r="26" fill="#F87171"/>
+    <path d="M350,300 C350,240 430,240 430,300 Z" fill="#10B981"/>
+    <!-- Person Center (Top) -->
+    <circle cx="250" cy="140" r="28" fill="#FCD34D"/>
+    <path d="M205,240 C205,185 295,185 295,240 Z" fill="#F43F5E"/>
+    <!-- Idea Bubble -->
+    <g transform="translate(250, 75)">
+      <circle cx="0" cy="0" r="32" fill="#FDE047" stroke="#F59E0B" stroke-width="3" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.1))"/>
+      <path d="M-10,6 L10,6 M-8,12 L8,12 M-5,18 L5,18" stroke="#92400E" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="0" cy="-6" r="14" fill="#FEF08A"/>
+    </g>
+  </svg>

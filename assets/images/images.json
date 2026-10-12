@@ -1,0 +1,38 @@
+[
+  {
+    "id": "cosmic-nebula",
+    "title": "Cosmic Nebula",
+    "category": "gradients",
+    "path": "/assets/images/cosmic-nebula.svg"
+  },
+  {
+    "id": "cyberpunk-neon",
+    "title": "Cyberpunk Grid",
+    "category": "abstract",
+    "path": "/assets/images/cyberpunk-neon.svg"
+  },
+  {
+    "id": "sunset-minimal",
+    "title": "Sunset Dune",
+    "category": "nature",
+    "path": "/assets/images/sunset-minimal.svg"
+  },
+  {
+    "id": "emerald-geometry",
+    "title": "Emerald Luxe",
+    "category": "abstract",
+    "path": "/assets/images/emerald-geometry.svg"
+  },
+  {
+    "id": "aurora-borealis",
+    "title": "Northern Lights",
+    "category": "nature",
+    "path": "/assets/images/aurora-borealis.svg"
+  },
+  {
+    "id": "studio-minimal",
+    "title": "Clean Pastel Podiums",
+    "category": "gradients",
+    "path": "/assets/images/studio-minimal.svg"
+  }
+]

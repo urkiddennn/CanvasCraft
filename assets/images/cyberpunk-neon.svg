@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+      <defs>
+        <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#090A0F"/>
+          <stop offset="60%" stop-color="#180B2B"/>
+          <stop offset="100%" stop-color="#2D0B42"/>
+        </linearGradient>
+        <linearGradient id="sun" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#F43F5E"/>
+          <stop offset="50%" stop-color="#FB923C"/>
+          <stop offset="100%" stop-color="#FBBF24"/>
+        </linearGradient>
+      </defs>
+      <rect width="1200" height="800" fill="url(#bg)"/>
+      <circle cx="600" cy="380" r="180" fill="url(#sun)"/>
+      <!-- Sun stripes -->
+      <line x1="420" y1="360" x2="780" y2="360" stroke="#090A0F" stroke-width="6"/>
+      <line x1="430" y1="385" x2="770" y2="385" stroke="#090A0F" stroke-width="10"/>
+      <line x1="450" y1="415" x2="750" y2="415" stroke="#090A0F" stroke-width="14"/>
+      <line x1="490" y1="450" x2="710" y2="450" stroke="#090A0F" stroke-width="20"/>
+      <!-- Grid floor -->
+      <path d="M0 450 L1200 450 L1200 800 L0 800 Z" fill="#070312"/>
+      <line x1="0" y1="450" x2="1200" y2="450" stroke="#06B6D4" stroke-width="3"/>
+      <!-- Perspective lines -->
+      <line x1="600" y1="450" x2="0" y2="800" stroke="#06B6D4" stroke-width="1.5" opacity="0.7"/>
+      <line x1="600" y1="450" x2="200" y2="800" stroke="#06B6D4" stroke-width="1.5" opacity="0.7"/>
+      <line x1="600" y1="450" x2="400" y2="800" stroke="#06B6D4" stroke-width="1.5" opacity="0.7"/>
+      <line x1="600" y1="450" x2="600" y2="800" stroke="#06B6D4" stroke-width="1.5" opacity="0.7"/>
+      <line x1="600" y1="450" x2="800" y2="800" stroke="#06B6D4" stroke-width="1.5" opacity="0.7"/>
+      <line x1="600" y1="450" x2="1000" y2="800" stroke="#06B6D4" stroke-width="1.5" opacity="0.7"/>
+      <line x1="600" y1="450" x2="1200" y2="800" stroke="#06B6D4" stroke-width="1.5" opacity="0.7"/>
+      <!-- Horizontal grid steps -->
+      <line x1="0" y1="470" x2="1200" y2="470" stroke="#06B6D4" stroke-width="1" opacity="0.4"/>
+      <line x1="0" y1="500" x2="1200" y2="500" stroke="#06B6D4" stroke-width="1" opacity="0.5"/>
+      <line x1="0" y1="545" x2="1200" y2="545" stroke="#06B6D4" stroke-width="1.2" opacity="0.6"/>
+      <line x1="0" y1="610" x2="1200" y2="610" stroke="#06B6D4" stroke-width="1.5" opacity="0.7"/>
+      <line x1="0" y1="700" x2="1200" y2="700" stroke="#06B6D4" stroke-width="2" opacity="0.8"/>
+    </svg>

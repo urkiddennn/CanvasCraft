@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%">
+    <defs>
+      <linearGradient id="edBg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F0FDFA"/>
+        <stop offset="100%" stop-color="#CCFBF1"/>
+      </linearGradient>
+    </defs>
+    <rect width="500" height="400" rx="20" fill="url(#edBg)"/>
+    <!-- Stack of Books -->
+    <g transform="translate(150, 160)">
+      <!-- Bottom Book -->
+      <rect x="0" y="110" width="200" height="35" rx="6" fill="#0D9488"/>
+      <rect x="180" y="115" width="25" height="25" rx="2" fill="#FFFFFF"/>
+      <line x1="10" y1="128" x2="170" y2="128" stroke="#5EEAD4" stroke-width="3"/>
+      <!-- Middle Book -->
+      <rect x="20" y="70" width="170" height="32" rx="6" fill="#F43F5E"/>
+      <line x1="30" y1="86" x2="160" y2="86" stroke="#FDA4AF" stroke-width="3"/>
+      <!-- Top Book -->
+      <rect x="40" y="32" width="140" height="30" rx="6" fill="#6366F1"/>
+      <line x1="50" y1="47" x2="150" y2="47" stroke="#C7D2FE" stroke-width="3"/>
+      <!-- Graduation Cap -->
+      <polygon points="110,0 20,25 110,48 200,25" fill="#1E293B"/>
+      <rect x="80" y="35" width="60" height="18" fill="#0F172A"/>
+      <path d="M180,30 L195,55" stroke="#F59E0B" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="195" cy="58" r="5" fill="#F59E0B"/>
+    </g>
+    <!-- Diploma Certificate Floating Right -->
+    <g transform="translate(340, 90) rotate(15)">
+      <rect x="0" y="0" width="80" height="110" rx="8" fill="#FFFFFF" stroke="#94A3B8" stroke-width="3" filter="drop-shadow(0 8px 16px rgba(0,0,0,0.1))"/>
+      <line x1="15" y1="25" x2="65" y2="25" stroke="#0D9488" stroke-width="4"/>
+      <line x1="15" y1="40" x2="65" y2="40" stroke="#CBD5E1" stroke-width="3"/>
+      <line x1="15" y1="55" x2="65" y2="55" stroke="#CBD5E1" stroke-width="3"/>
+      <circle cx="40" cy="85" r="12" fill="#F59E0B"/>
+      <!-- Ribbon -->
+      <polygon points="35,95 40,110 45,95" fill="#EF4444"/>
+    </g>
+  </svg>

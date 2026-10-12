@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+      <defs>
+        <linearGradient id="laptopLid" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#334155"/>
+          <stop offset="100%" stop-color="#0F172A"/>
+        </linearGradient>
+      </defs>
+      <!-- Lid / Display surround -->
+      <rect x="64" y="14" width="512" height="332" rx="14" fill="url(#laptopLid)" stroke="#64748B" stroke-width="2"/>
+      <!-- Notch / Camera -->
+      <rect x="300" y="14" width="40" height="12" rx="4" fill="#020617"/>
+      <circle cx="320" cy="20" r="3" fill="#1E293B"/>
+      <!-- Base keyboard plate -->
+      <path d="M20 346 L620 346 C630 346 638 354 632 364 L608 376 C604 380 596 382 590 382 L50 382 C44 382 36 380 32 376 L8 364 C2 354 10 346 20 346 Z" fill="#475569" stroke="#94A3B8" stroke-width="1.5"/>
+      <!-- Trackpad notch -->
+      <rect x="270" y="346" width="100" height="6" rx="3" fill="#1E293B"/>
+    </svg>

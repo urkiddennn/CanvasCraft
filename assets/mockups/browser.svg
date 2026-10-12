@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+      <!-- Outer Window -->
+      <rect x="2" y="2" width="596" height="396" rx="12" fill="#1E293B" stroke="#334155" stroke-width="2"/>
+      <!-- Header Bar -->
+      <rect x="2" y="2" width="596" height="44" rx="12" fill="#0F172A"/>
+      <!-- Window Dots -->
+      <circle cx="24" cy="24" r="6" fill="#EF4444"/>
+      <circle cx="44" cy="24" r="6" fill="#F59E0B"/>
+      <circle cx="64" cy="24" r="6" fill="#10B981"/>
+      <!-- Address Bar -->
+      <rect x="90" y="12" width="400" height="24" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+      <text x="110" y="28" font-family="sans-serif" font-size="11" fill="#94A3B8">https://eazegraphics.app</text>
+    </svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%">
+    <defs>
+      <linearGradient id="secBg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#020617"/>
+        <stop offset="100%" stop-color="#0F172A"/>
+      </linearGradient>
+      <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#3B82F6"/>
+        <stop offset="100%" stop-color="#1D4ED8"/>
+      </linearGradient>
+    </defs>
+    <rect width="500" height="400" rx="20" fill="url(#secBg)"/>
+    <!-- Circuit lines in background -->
+    <polyline points="50,100 120,100 150,150 180,150" fill="none" stroke="#1E293B" stroke-width="3"/>
+    <polyline points="450,100 380,100 350,150 320,150" fill="none" stroke="#1E293B" stroke-width="3"/>
+    <polyline points="80,300 150,300 190,260" fill="none" stroke="#1E293B" stroke-width="3"/>
+    <polyline points="420,300 350,300 310,260" fill="none" stroke="#1E293B" stroke-width="3"/>
+    <!-- Central Shield -->
+    <path d="M250,60 L350,110 C350,230 250,310 250,330 C250,310 150,230 150,110 Z" fill="url(#shieldGrad)" filter="drop-shadow(0 15px 30px rgba(59,130,246,0.35))"/>
+    <path d="M250,75 L335,118 C335,222 250,292 250,310 C250,292 165,222 165,118 Z" fill="#1E40AF"/>
+    <!-- Golden Padlock -->
+    <rect x="220" y="180" width="60" height="50" rx="10" fill="#FBBF24"/>
+    <path d="M232,180 L232,150 C232,135 268,135 268,150 L268,180" fill="none" stroke="#FDE047" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="250" cy="200" r="5" fill="#78350F"/>
+    <line x1="250" y1="205" x2="250" y2="218" stroke="#78350F" stroke-width="4" stroke-linecap="round"/>
+  </svg>

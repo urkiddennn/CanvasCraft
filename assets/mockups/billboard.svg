@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" width="480" height="360">
+      <!-- Frame border -->
+      <rect x="15" y="15" width="450" height="330" rx="6" fill="#0F172A" stroke="#E2E8F0" stroke-width="12" filter="drop-shadow(0 10px 20px rgba(0,0,0,0.5))"/>
+      <!-- Inner matting border -->
+      <rect x="28" y="28" width="424" height="304" rx="2" fill="none" stroke="#64748B" stroke-width="2"/>
+    </svg>

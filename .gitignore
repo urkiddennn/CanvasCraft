@@ -1,0 +1,11 @@
+/target
+**/*.rs.bk
+*.db
+*.db-shm
+*.db-wal
+canva_local.db
+assets/uploads/*
+!assets/uploads/.gitkeep
+.DS_Store
+Thumbs.db
+

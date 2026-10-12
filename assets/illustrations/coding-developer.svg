@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%">
+    <defs>
+      <linearGradient id="codeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#18181B"/>
+        <stop offset="100%" stop-color="#09090B"/>
+      </linearGradient>
+    </defs>
+    <rect width="500" height="400" rx="20" fill="url(#codeBg)"/>
+    <!-- Code Editor Window -->
+    <rect x="60" y="50" width="380" height="240" rx="12" fill="#27272A" stroke="#3F3F46" stroke-width="2"/>
+    <!-- Window Header -->
+    <rect x="60" y="50" width="380" height="32" rx="12" fill="#18181B"/>
+    <circle cx="85" cy="66" r="5" fill="#EF4444"/>
+    <circle cx="102" cy="66" r="5" fill="#F59E0B"/>
+    <circle cx="119" cy="66" r="5" fill="#10B981"/>
+    <!-- Syntax Lines -->
+    <rect x="90" y="105" width="80" height="12" rx="4" fill="#A855F7"/>
+    <rect x="180" y="105" width="120" height="12" rx="4" fill="#38BDF8"/>
+    <rect x="110" y="130" width="160" height="12" rx="4" fill="#F472B6"/>
+    <rect x="110" y="155" width="70" height="12" rx="4" fill="#34D399"/>
+    <rect x="190" y="155" width="140" height="12" rx="4" fill="#FBBF24"/>
+    <rect x="130" y="180" width="210" height="12" rx="4" fill="#E2E8F0"/>
+    <rect x="90" y="210" width="60" height="12" rx="4" fill="#A855F7"/>
+    <!-- Developer Character Hands & Laptop -->
+    <rect x="160" y="270" width="180" height="70" rx="8" fill="#3F3F46" stroke="#71717A" stroke-width="3"/>
+    <path d="M190,340 C190,300 230,290 240,320 Z" fill="#FCD34D"/>
+    <path d="M310,340 C310,300 270,290 260,320 Z" fill="#FCD34D"/>
+  </svg>

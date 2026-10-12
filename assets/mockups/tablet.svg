@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 580" width="440" height="580">
+      <!-- Body outer bezel -->
+      <rect x="15" y="15" width="410" height="550" rx="24" fill="#1E293B" stroke="#475569" stroke-width="3"/>
+      <!-- Camera dot -->
+      <circle cx="220" cy="20" r="3" fill="#0F172A"/>
+    </svg>

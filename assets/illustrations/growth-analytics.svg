@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%">
+    <defs>
+      <linearGradient id="grBg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0F172A"/>
+        <stop offset="100%" stop-color="#1E293B"/>
+      </linearGradient>
+      <linearGradient id="chartGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#10B981"/>
+        <stop offset="100%" stop-color="#047857"/>
+      </linearGradient>
+    </defs>
+    <rect width="500" height="400" rx="20" fill="url(#grBg)"/>
+    <!-- Dashboard Board -->
+    <rect x="60" y="60" width="380" height="280" rx="16" fill="#1E293B" stroke="#334155" stroke-width="3"/>
+    <!-- Grid Lines -->
+    <line x1="90" y1="290" x2="410" y2="290" stroke="#475569" stroke-width="2"/>
+    <line x1="90" y1="230" x2="410" y2="230" stroke="#334155" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="90" y1="170" x2="410" y2="170" stroke="#334155" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="90" y1="110" x2="410" y2="110" stroke="#334155" stroke-width="1" stroke-dasharray="4,4"/>
+    <!-- Bars -->
+    <rect x="115" y="210" width="35" height="80" rx="6" fill="#6366F1"/>
+    <rect x="175" y="180" width="35" height="110" rx="6" fill="#8B5CF6"/>
+    <rect x="235" y="140" width="35" height="150" rx="6" fill="#EC4899"/>
+    <rect x="295" y="120" width="35" height="170" rx="6" fill="#F43F5E"/>
+    <rect x="355" y="90" width="35" height="200" rx="6" fill="url(#chartGrad)"/>
+    <!-- Rising Trend Line -->
+    <polyline points="132,200 192,165 252,130 312,105 372,75" fill="none" stroke="#FDE047" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Arrow Head -->
+    <polygon points="382,65 365,75 378,88" fill="#FDE047"/>
+    <!-- Nodes -->
+    <circle cx="132" cy="200" r="6" fill="#FFFFFF"/>
+    <circle cx="192" cy="165" r="6" fill="#FFFFFF"/>
+    <circle cx="252" cy="130" r="6" fill="#FFFFFF"/>
+    <circle cx="312" cy="105" r="6" fill="#FFFFFF"/>
+    <circle cx="372" cy="75" r="7" fill="#FFFFFF" stroke="#F59E0B" stroke-width="3"/>
+  </svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%">
+    <defs>
+      <linearGradient id="shopBg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFF7ED"/>
+        <stop offset="100%" stop-color="#FFEDD5"/>
+      </linearGradient>
+    </defs>
+    <rect width="500" height="400" rx="20" fill="url(#shopBg)"/>
+    <!-- Smartphone Frame -->
+    <rect x="175" y="40" width="150" height="300" rx="24" fill="#1E293B" stroke="#0F172A" stroke-width="4"/>
+    <rect x="185" y="60" width="130" height="260" rx="14" fill="#FFFFFF"/>
+    <!-- Store Banner on Screen -->
+    <rect x="195" y="80" width="110" height="70" rx="8" fill="#EA580C"/>
+    <circle cx="250" cy="115" r="22" fill="#FED7AA"/>
+    <!-- Product Grid on Screen -->
+    <rect x="195" y="165" width="50" height="50" rx="6" fill="#FDBA74"/>
+    <rect x="255" y="165" width="50" height="50" rx="6" fill="#FCA5A5"/>
+    <rect x="195" y="225" width="110" height="24" rx="12" fill="#EA580C"/>
+    <!-- Shopping Bag Floating Left -->
+    <g transform="translate(70, 160)">
+      <rect x="0" y="40" width="80" height="90" rx="12" fill="#F97316" filter="drop-shadow(0 10px 15px rgba(249,115,22,0.3))"/>
+      <path d="M20,40 C20,10 60,10 60,40" fill="none" stroke="#C2410C" stroke-width="8" stroke-linecap="round"/>
+      <polygon points="40,65 52,90 28,90" fill="#FFFFFF"/>
+    </g>
+    <!-- Gift Box Floating Right -->
+    <g transform="translate(350, 180)">
+      <rect x="0" y="30" width="80" height="80" rx="10" fill="#10B981" filter="drop-shadow(0 10px 15px rgba(16,185,129,0.3))"/>
+      <rect x="0" y="20" width="80" height="18" rx="4" fill="#059669"/>
+      <rect x="34" y="20" width="12" height="90" fill="#FDE047"/>
+      <!-- Ribbon Bow -->
+      <path d="M40,20 C20,0 20,20 40,20 C60,20 60,0 40,20 Z" fill="#F59E0B"/>
+    </g>
+  </svg>

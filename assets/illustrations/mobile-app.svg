@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%">
+    <defs>
+      <linearGradient id="mBg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F0FDF4"/>
+        <stop offset="100%" stop-color="#DCFCE7"/>
+      </linearGradient>
+    </defs>
+    <rect width="500" height="400" rx="20" fill="url(#mBg)"/>
+    <!-- Hand Holding Phone -->
+    <rect x="180" y="40" width="140" height="280" rx="24" fill="#0F172A" stroke="#334155" stroke-width="4"/>
+    <rect x="190" y="60" width="120" height="240" rx="16" fill="#FFFFFF"/>
+    <!-- App UI -->
+    <circle cx="250" cy="110" r="30" fill="#10B981"/>
+    <path d="M240,110 L248,118 L262,102" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="210" y="160" width="80" height="12" rx="4" fill="#047857"/>
+    <rect x="220" y="182" width="60" height="8" rx="4" fill="#94A3B8"/>
+    <!-- App Cards -->
+    <rect x="200" y="210" width="100" height="35" rx="8" fill="#F1F5F9"/>
+    <rect x="200" y="255" width="100" height="35" rx="8" fill="#F1F5F9"/>
+    <!-- Social Floating Bubbles -->
+    <circle cx="110" cy="120" r="32" fill="#EC4899" filter="drop-shadow(0 6px 12px rgba(236,72,153,0.3))"/>
+    <path d="M100,120 C100,110 110,110 110,120 C110,110 120,110 120,120 C120,130 110,135 110,135 C110,135 100,130 100,120 Z" fill="#FFFFFF"/>
+    <circle cx="390" cy="160" r="30" fill="#3B82F6" filter="drop-shadow(0 6px 12px rgba(59,130,246,0.3))"/>
+    <polygon points="385,150 405,160 385,170" fill="#FFFFFF"/>
+  </svg>

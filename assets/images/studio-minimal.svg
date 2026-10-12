@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+      <defs>
+        <linearGradient id="wall" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#F8FAFC"/>
+          <stop offset="100%" stop-color="#E2E8F0"/>
+        </linearGradient>
+      </defs>
+      <rect width="1200" height="800" fill="url(#wall)"/>
+      <!-- Sun circle reflection -->
+      <circle cx="600" cy="300" r="220" fill="#E0E7FF" opacity="0.6"/>
+      <!-- Floor shadow -->
+      <ellipse cx="600" cy="620" rx="260" ry="24" fill="#94A3B8" opacity="0.25"/>
+      <!-- Cylinder pedestal -->
+      <rect x="420" y="440" width="360" height="180" rx="20" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2"/>
+      <ellipse cx="600" cy="440" rx="180" ry="32" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+      <!-- Accent sphere -->
+      <circle cx="820" cy="520" r="50" fill="#F472B6"/>
+      <ellipse cx="820" cy="580" rx="40" ry="8" fill="#94A3B8" opacity="0.3"/>
+    </svg>

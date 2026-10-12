@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+      <defs>
+        <linearGradient id="darknight" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#020617"/>
+          <stop offset="100%" stop-color="#0F172A"/>
+        </linearGradient>
+        <radialGradient id="aurora1" cx="40%" cy="40%" r="50%">
+          <stop offset="0%" stop-color="#2DD4BF" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="aurora2" cx="70%" cy="30%" r="60%">
+          <stop offset="0%" stop-color="#A855F7" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1200" height="800" fill="url(#darknight)"/>
+      <path d="M0 200 Q300 100 600 250 T1200 150 L1200 600 Q900 450 600 550 T0 500 Z" fill="url(#aurora1)" filter="blur(40px)"/>
+      <path d="M0 300 Q400 180 800 320 T1200 280 L1200 700 Q800 600 400 680 T0 600 Z" fill="url(#aurora2)" filter="blur(50px)"/>
+      <!-- Mountain silhouettes -->
+      <polygon points="0,800 150,550 350,800" fill="#090D16"/>
+      <polygon points="250,800 450,480 700,800" fill="#0B132B"/>
+      <polygon points="600,800 850,520 1050,800" fill="#090D16"/>
+      <polygon points="950,800 1150,580 1200,800" fill="#0B132B"/>
+    </svg>

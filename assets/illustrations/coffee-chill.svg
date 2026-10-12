@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%">
+    <defs>
+      <linearGradient id="cofBg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FDF2F8"/>
+        <stop offset="100%" stop-color="#FCE7F3"/>
+      </linearGradient>
+    </defs>
+    <rect width="500" height="400" rx="20" fill="url(#cofBg)"/>
+    <!-- Table Surface -->
+    <ellipse cx="250" cy="330" rx="190" ry="40" fill="#E2E8F0"/>
+    <!-- Saucer Plate -->
+    <ellipse cx="250" cy="290" rx="120" ry="24" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="4"/>
+    <!-- Coffee Mug -->
+    <path d="M170,170 L330,170 C330,260 310,285 250,285 C190,285 170,260 170,170 Z" fill="#F43F5E" filter="drop-shadow(0 12px 18px rgba(244,63,94,0.25))"/>
+    <ellipse cx="250" cy="170" rx="80" ry="16" fill="#881337"/>
+    <!-- Dark Coffee Liquid -->
+    <ellipse cx="250" cy="172" rx="72" ry="12" fill="#451A03"/>
+    <ellipse cx="230" cy="172" rx="14" ry="4" fill="#78350F" opacity="0.6"/>
+    <!-- Mug Handle -->
+    <path d="M330,190 C370,190 370,250 325,250" fill="none" stroke="#E11D48" stroke-width="16" stroke-linecap="round"/>
+    <!-- Steam Curves -->
+    <path d="M220,140 Q210,110 230,80 Q240,60 230,40" fill="none" stroke="#FDA4AF" stroke-width="5" stroke-linecap="round"/>
+    <path d="M250,140 Q265,110 245,80 Q235,60 250,40" fill="none" stroke="#FDA4AF" stroke-width="5" stroke-linecap="round"/>
+    <path d="M280,140 Q270,110 290,80 Q300,60 285,40" fill="none" stroke="#FDA4AF" stroke-width="5" stroke-linecap="round"/>
+  </svg>
