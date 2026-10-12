@@ -712,12 +712,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       const isActive = engine.canvas.getActiveObject() === obj;
 
       html += `
-        <div class="asset-card" style="padding:8px 12px; display:flex; align-items:center; justify-content:space-between; background:${isActive ? '#3B3C44' : '#2D2E33'};" data-layer-idx="${objects.length - 1 - idx}">
-          <span style="font-size:12px;">${text}</span>
+        <div class="asset-card" style="padding:8px 12px; display:flex; align-items:center; justify-content:space-between; background:${isActive ? 'var(--bg-active)' : 'var(--bg-card)'}; border:1px solid ${isActive ? 'var(--primary)' : 'var(--border-subtle)'};" data-layer-idx="${objects.length - 1 - idx}">
+          <span style="font-size:12px; font-weight:500;">${text}</span>
           <div style="display:flex; gap:4px;">
-            <button class="nav-pill-btn layer-up-btn" style="padding:2px 6px; font-size:10px;">▲</button>
-            <button class="nav-pill-btn layer-down-btn" style="padding:2px 6px; font-size:10px;">▼</button>
-            <button class="nav-pill-btn layer-del-btn" style="padding:2px 6px; font-size:10px; color:#EF4444;">✕</button>
+            <button class="prop-btn layer-up-btn" title="Move Up" style="width:24px; height:24px; padding:0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+            </button>
+            <button class="prop-btn layer-down-btn" title="Move Down" style="width:24px; height:24px; padding:0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <button class="prop-btn layer-del-btn" title="Delete" style="width:24px; height:24px; padding:0; color:#EF4444;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
           </div>
         </div>
       `;
@@ -791,56 +797,76 @@ document.addEventListener('DOMContentLoaded', async () => {
     const isShape = !isText && !isImage;
 
     let html = `
-      <div class="prop-unit">
-        <button class="nav-pill-btn" id="btn-prop-align-h" title="Align center" style="padding:4px 6px;">⬌</button>
-        <button class="nav-pill-btn" id="btn-prop-align-v" title="Align middle" style="padding:4px 6px;">⬍</button>
-        <button class="nav-pill-btn" id="btn-prop-up" title="Bring forward" style="padding:4px 6px;">⇈</button>
-        <button class="nav-pill-btn" id="btn-prop-down" title="Send backward" style="padding:4px 6px;">⇊</button>
+      <div class="prop-group">
+        <button class="prop-btn" id="btn-prop-align-h" title="Align Center Horizontally">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><rect width="12" height="6" x="6" y="9" rx="1"/></svg>
+        </button>
+        <button class="prop-btn" id="btn-prop-align-v" title="Align Middle Vertically">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="12" x2="22" y2="12"/><rect width="6" height="12" x="9" y="6" rx="1"/></svg>
+        </button>
+        <button class="prop-btn" id="btn-prop-up" title="Bring Forward">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+        </button>
+        <button class="prop-btn" id="btn-prop-down" title="Send Backward">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
       </div>
-      <div class="divider-bar"></div>
+      <div class="prop-divider"></div>
     `;
 
     if (isText) {
       html += `
-        <div class="prop-unit">
-          <select id="prop-font-family" class="prop-dropdown">
+        <div class="prop-group">
+          <select id="prop-font-family" class="prop-dropdown" style="height:30px; background:var(--bg-panel); border:1px solid var(--border-default); color:var(--text-primary); border-radius:var(--radius-xs); padding:0 8px; font-size:12px;">
             ${['Caveat', 'Inter', 'Outfit', 'Playfair Display', 'Space Grotesk'].map(f => `<option value="${f}" ${active.fontFamily === f ? 'selected' : ''}>${f}</option>`).join('')}
           </select>
-          <input type="number" id="prop-font-size" class="prop-num" value="${Math.round(active.fontSize || 40)}" min="8" max="240">
+          <input type="number" id="prop-font-size" class="prop-num" value="${Math.round(active.fontSize || 40)}" min="8" max="240" style="width:50px; height:30px; background:var(--bg-panel); border:1px solid var(--border-default); color:var(--text-primary); border-radius:var(--radius-xs); padding:0 6px; font-size:12px;">
         </div>
-        <div class="prop-unit">
-          <button class="nav-pill-btn ${active.fontWeight === 'bold' ? 'active' : ''}" id="btn-prop-bold" style="padding:4px 8px;"><b>B</b></button>
-          <button class="nav-pill-btn ${active.fontStyle === 'italic' ? 'active' : ''}" id="btn-prop-italic" style="padding:4px 8px;"><i>I</i></button>
+        <div class="prop-group">
+          <button class="prop-btn ${active.fontWeight === 'bold' ? 'active' : ''}" id="btn-prop-bold" title="Bold">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 12h9a4 4 0 0 1 0 8H6v-8zm0-8h8a4 4 0 0 1 0 8H6V4z"/></svg>
+          </button>
+          <button class="prop-btn ${active.fontStyle === 'italic' ? 'active' : ''}" id="btn-prop-italic" title="Italic">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg>
+          </button>
         </div>
-        <div class="divider-bar"></div>
-        <div class="prop-unit" style="position:relative;">
-          <div class="color-swatch-box" style="background:${active.fill || '#000000'};" id="text-color-box"></div>
-          <input type="color" class="color-input-hidden" id="prop-text-col" value="${rgbToHex(active.fill) || '#000000'}">
+        <div class="prop-divider"></div>
+        <div class="prop-group" style="position:relative;">
+          <div class="color-swatch-box" style="width:24px; height:24px; border-radius:4px; border:1px solid var(--border-default); background:${active.fill || '#000000'}; cursor:pointer;" id="text-color-box" title="Text Color"></div>
+          <input type="color" class="color-input-hidden" id="prop-text-col" value="${rgbToHex(active.fill) || '#000000'}" style="position:absolute; opacity:0; width:24px; height:24px; cursor:pointer;">
         </div>
       `;
     }
 
     if (isShape) {
       html += `
-        <div class="prop-unit" style="position:relative;">
-          <span style="font-size:11px; color:var(--text-muted);">Color:</span>
-          <div class="color-swatch-box" style="background:${active.fill || '#38BDF8'};" id="shape-fill-box"></div>
-          <input type="color" class="color-input-hidden" id="prop-shape-col" value="${rgbToHex(active.fill) || '#38bdf8'}">
+        <div class="prop-group" style="position:relative;">
+          <span style="font-size:11px; color:var(--text-dim); margin-right:4px;">Fill:</span>
+          <div class="color-swatch-box" style="width:24px; height:24px; border-radius:4px; border:1px solid var(--border-default); background:${active.fill || '#38BDF8'}; cursor:pointer;" id="shape-fill-box" title="Fill Color"></div>
+          <input type="color" class="color-input-hidden" id="prop-shape-col" value="${rgbToHex(active.fill) || '#38bdf8'}" style="position:absolute; opacity:0; width:24px; height:24px; cursor:pointer;">
         </div>
       `;
     }
 
     html += `
-      <div class="divider-bar"></div>
-      <div class="prop-unit">
-        <span style="font-size:11px; color:var(--text-muted);">Transparency:</span>
-        <input type="range" id="prop-transparency" min="0.1" max="1" step="0.05" value="${active.opacity || 1}" style="width:60px; accent-color:#00C4CC;">
+      <div class="prop-divider"></div>
+      <div class="prop-group">
+        <span style="font-size:11px; color:var(--text-dim); margin-right:4px;">Opacity:</span>
+        <input type="range" id="prop-transparency" min="0.1" max="1" step="0.05" value="${active.opacity || 1}" style="width:65px; accent-color:var(--primary); cursor:pointer;">
       </div>
-      <div class="divider-bar"></div>
-      <div class="prop-unit">
-        <button class="nav-pill-btn" id="btn-prop-dup" title="Duplicate (Ctrl+D)" style="padding:4px 6px;">⧉</button>
-        <button class="nav-pill-btn" id="btn-prop-lock" title="Lock" style="padding:4px 6px;">${active.lockMovementX ? '🔒' : '🔓'}</button>
-        <button class="nav-pill-btn" id="btn-prop-del" title="Delete" style="padding:4px 6px; color:#EF4444;">🗑</button>
+      <div class="prop-divider"></div>
+      <div class="prop-group">
+        <button class="prop-btn" id="btn-prop-dup" title="Duplicate (Ctrl+D)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        </button>
+        <button class="prop-btn" id="btn-prop-lock" title="${active.lockMovementX ? 'Unlock element' : 'Lock element'}">
+          ${active.lockMovementX
+            ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`
+            : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>`}
+        </button>
+        <button class="prop-btn" id="btn-prop-del" title="Delete" style="color:#EF4444;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+        </button>
       </div>
     `;
 
